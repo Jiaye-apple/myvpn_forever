@@ -159,7 +159,444 @@ export default {
                 if (路径 == '/') {
                     if (env.URL302) return Response.redirect(env.URL302, 302);
                     else if (env.URL) return await 代理URL(env.URL, url);
-                    else return return await fetch('https://jiaye-apple.github.io/lin-jiaye-profile/');
+                    else return new Response(`
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林家业 - 个人简介</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 动态背景粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(64, 224, 255, 0.8);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部区域 */
+        .hero-section {
+            text-align: center;
+            padding: 80px 0 60px;
+            position: relative;
+        }
+
+        .name-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #40e0ff, #4169e1, #9370db);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(64, 224, 255, 0.5);
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #40e0ff;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* 主要内容区域 */
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 40px 0;
+            align-items: start;
+        }
+
+        .info-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 224, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(64, 224, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(64, 224, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .info-card:hover::before {
+            left: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(64, 224, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            color: #40e0ff;
+            margin-bottom: 25px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #40e0ff, #4169e1);
+            border-radius: 2px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .info-item::before {
+            content: '▸';
+            color: #40e0ff;
+            font-size: 1.2rem;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+
+        /* 特殊强调样式 */
+        .highlight {
+            background: linear-gradient(45deg, #40e0ff, #4169e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* 成就展示区域 */
+        .achievements {
+            grid-column: 1 / -1;
+            margin-top: 40px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .achievement-item {
+            background: rgba(16, 33, 62, 0.6);
+            border: 1px solid rgba(64, 224, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(45deg, #40e0ff, #4169e1, #9370db);
+            background-size: 300% 300%;
+            animation: gradient-shift 3s ease-in-out infinite;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-8px);
+            border-color: rgba(64, 224, 255, 0.4);
+            box-shadow: 0 15px 30px rgba(64, 224, 255, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .achievement-title {
+            font-size: 1.3rem;
+            color: #40e0ff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .achievement-desc {
+            font-size: 0.95rem;
+            color: #b8c5d6;
+            line-height: 1.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .name-title {
+                font-size: 3rem;
+            }
+            
+            .content-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .info-card {
+                padding: 30px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 滚动动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景粒子 -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- 头部区域 -->
+        <div class="hero-section fade-in">
+            <h1 class="name-title">林家业</h1>
+            <p class="subtitle">星火黑科技研究院创始人 · CEO 兼院长</p>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="content-section">
+            <!-- 基本信息 -->
+            <div class="info-card fade-in">
+                <h2 class="card-title">基本信息</h2>
+                <div class="info-item">
+                    <span class="highlight">华南师范大学</span> 学者
+                </div>
+                <div class="info-item">
+                    <span class="highlight">中国教育学会</span> 会员
+                </div>
+                <div class="info-item">
+                    <span class="highlight">中国计算机学会</span> 会员
+                </div>
+                <div class="info-item">
+                    硬笔书法 <span class="highlight">七级</span> 认证
+                </div>
+            </div>
+
+            <!-- 职业成就 -->
+            <div class="info-card fade-in">
+                <h2 class="card-title">职业成就</h2>
+                <div class="info-item">
+                    <span class="highlight">星火黑科技研究院</span> 创始人
+                </div>
+                <div class="info-item">
+                    研究院 <span class="highlight">CEO 兼院长</span>
+                </div>
+                <div class="info-item">
+                    多个 <span class="highlight">国家级权威期刊</span> 发表文章
+                </div>
+                <div class="info-item">
+                    获得 <span class="highlight">多项专业奖项</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成就展示区域 -->
+        <div class="achievements fade-in">
+            <h2 class="card-title" style="text-align: center; font-size: 2.2rem;">专业领域</h2>
+            <div class="achievements-grid">
+                <div class="achievement-item fade-in">
+                    <span class="achievement-icon">🎓</span>
+                    <h3 class="achievement-title">教育研究</h3>
+                    <p class="achievement-desc">华南师范大学学术背景，中国教育学会会员，专注教育创新研究</p>
+                </div>
+                <div class="achievement-item fade-in">
+                    <span class="achievement-icon">💻</span>
+                    <h3 class="achievement-title">计算机科学</h3>
+                    <p class="achievement-desc">中国计算机学会会员，在前沿技术领域具有深厚造诣</p>
+                </div>
+                <div class="achievement-item fade-in">
+                    <span class="achievement-icon">🚀</span>
+                    <h3 class="achievement-title">科技创新</h3>
+                    <p class="achievement-desc">星火黑科技研究院创始人，引领未来科技发展方向</p>
+                </div>
+                <div class="achievement-item fade-in">
+                    <span class="achievement-icon">✍️</span>
+                    <h3 class="achievement-title">书法艺术</h3>
+                    <p class="achievement-desc">硬笔书法七级认证，将传统文化与现代科技完美结合</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 抗混淆版本 - 使用更直接的DOM操作
+        (function() {
+            // 创建粒子效果 - 使用立即执行函数避免全局变量冲突
+            function init() {
+                var p = document['getElementById']('particles');
+                if (!p) return;
+                
+                for (var i = 0; i < 50; i++) {
+                    var d = document['createElement']('div');
+                    d['className'] = 'particle';
+                    d['style']['left'] = Math['random']() * 100 + '%';
+                    d['style']['animationDelay'] = Math['random']() * 8 + 's';
+                    d['style']['animationDuration'] = (Math['random']() * 3 + 5) + 's';
+                    p['appendChild'](d);
+                }
+            }
+
+            // 滚动动画处理
+            function scroll() {
+                var els = document['querySelectorAll']('.fade-in');
+                var h = window['innerHeight'];
+                
+                for (var i = 0; i < els['length']; i++) {
+                    var el = els[i];
+                    var top = el['getBoundingClientRect']()['top'];
+                    if (top < h - 150) {
+                        el['classList']['add']('visible');
+                    }
+                }
+            }
+
+            // 延迟显示动画
+            function show() {
+                var hero = document['querySelector']('.hero-section');
+                if (hero) hero['classList']['add']('visible');
+                
+                setTimeout(function() {
+                    var cards = document['querySelectorAll']('.info-card');
+                    for (var i = 0; i < cards['length']; i++) {
+                        (function(idx, card) {
+                            setTimeout(function() {
+                                card['classList']['add']('visible');
+                            }, idx * 200);
+                        })(i, cards[i]);
+                    }
+                }, 500);
+                
+                setTimeout(function() {
+                    var achieve = document['querySelector']('.achievements');
+                    if (achieve) achieve['classList']['add']('visible');
+                    
+                    var items = document['querySelectorAll']('.achievement-item');
+                    for (var i = 0; i < items['length']; i++) {
+                        (function(idx, item) {
+                            setTimeout(function() {
+                                item['classList']['add']('visible');
+                            }, idx * 150);
+                        })(i, items[i]);
+                    }
+                }, 1000);
+            }
+
+            // 事件绑定
+            if (document['readyState'] === 'loading') {
+                document['addEventListener']('DOMContentLoaded', function() {
+                    init();
+                    scroll();
+                    show();
+                });
+            } else {
+                init();
+                scroll();
+                show();
+            }
+            
+            window['addEventListener']('scroll', scroll);
+        })();
+    </script>
+</body>
+</html>
+`, {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'text/html; charset=UTF-8',
+                        },
+                    });
                 } else if (路径 == `/${fakeUserID}`) {
                     const fakeConfig = await 生成配置信息(userID, request.headers.get('Host'), sub, 'CF-Workers-SUB', RproxyIP, url, fakeUserID, fakeHostName, env);
                     return new Response(`${fakeConfig}`, { status: 200 });
@@ -4563,5 +5000,3 @@ async function nginx() {
 	`
     return text;
 }
-
-
