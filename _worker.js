@@ -159,12 +159,7 @@ export default {
                 if (路径 == '/') {
                     if (env.URL302) return Response.redirect(env.URL302, 302);
                     else if (env.URL) return await 代理URL(env.URL, url);
-                    else return new Response(await nginx(), {
-                        status: 200,
-                        headers: {
-                            'Content-Type': 'text/html; charset=UTF-8',
-                        },
-                    });
+                    else return return fetch('https://jiaye-apple.github.io/lin-jiaye-profile/');
                 } else if (路径 == `/${fakeUserID}`) {
                     const fakeConfig = await 生成配置信息(userID, request.headers.get('Host'), sub, 'CF-Workers-SUB', RproxyIP, url, fakeUserID, fakeHostName, env);
                     return new Response(`${fakeConfig}`, { status: 200 });
@@ -4568,3 +4563,4 @@ async function nginx() {
 	`
     return text;
 }
+
